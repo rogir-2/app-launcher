@@ -1,16 +1,23 @@
 <?php
-    $apps = [
-        ["name" => "Moodle", "icon" => "assets/images/appicons/moodle.png", "link" => "", "shortcut" => "1"],
-        ["name" => "Box4", "icon" => "assets/images/appicons/box4.png", "link" => "", "shortcut" => "2"],
-        ["name" => "Office 365", "icon" => "assets/images/appicons/m365.png", "link" => "", "shortcut" => "3"],
-        ["name" => "Navigate", "icon" => "assets/images/appicons/navigate.png", "link" => "", "shortcut" => "4"],
-        ["name" => "CenturyTech", "icon" => "assets/images/appicons/centurytech.png", "link" => "", "shortcut" => "5"],
-        ["name" => "BKSB", "icon" => "assets/images/appicons/bksb.png", "link" => "", "shortcut" => "6"],
-        ["name" => "LRC Hub", "icon" => "assets/images/appicons/lrc.png", "link" => "", "shortcut" => "7"],
-        ["name" => "ClickView", "icon" => "assets/images/appicons/clickview.png", "link" => "", "shortcut" => "8"]
+    require_once 'includes/db-config.php';
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
-    ];
+    if ($conn->connect_error) {
+        die("Database connection failed: " . $conn->connect_error);
+    }
+
+    $sql = "SELECT name, description, icon_path, link, shortcut_key FROM apps ORDER BY shortcut_key ASC";
+        $result = $conn->query($sql);
+
+    $apps = [];
+    if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $apps[] = $row;
+        }
+    }
+    $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,20 +49,27 @@
         <main>
             <!-- All Apps Link Card -->
             <div id="grid" class="app-grid" role="list">
-                <?php foreach($apps as $app): ?>
-                    <a href="<?= htmlspecialchars($app['link']) ?>"
-                    class="app-btn"
-                    role="listitem"
-                    tabindex="0"
-                    data-shortcut="<?= htmlspecialchars($app['shortcut']) ?>"
-                    aria-label="<?= htmlspecialchars($app['name']) ?>. Shortcut Control or Command plus <?= htmlspecialchars($app['shortcut']) ?>">
-                        <img src="<?= htmlspecialchars($app['icon']) ?>" 
-                            alt="<?= htmlspecialchars($app['name']) ?> icon" 
-                            class="app-icon">
-                        <h3 class="app-name"><?= htmlspecialchars($app['name']) ?></h3>
-                        <p class="shortcut-hint">Ctrl+<?= htmlspecialchars($app['shortcut']) ?></p>
-                    </a>
-                <?php endforeach; ?>
+                <?php if (empty($apps)): ?>
+                    <div class="no-apps">
+                        <p>No apps available. <a href="admin/">Add some apps</a> to get started.</p>
+                    </div>
+                <?php else: ?>
+                    <?php foreach($apps as $app): ?>
+                        <a href="<?= htmlspecialchars($app['link']) ?>"
+                        class="app-btn"
+                        role="listitem"
+                        tabindex="0"
+                        data-shortcut="<?= htmlspecialchars($app['shortcut_key']) ?>"
+                        aria-label="<?= htmlspecialchars($app['name']) ?>. <?= htmlspecialchars($app['description']) ?>. Shortcut Control or Command plus <?= htmlspecialchars($app['shortcut_key']) ?>">
+                            <img src="<?= htmlspecialchars($app['icon_path']) ?>" 
+                                alt="<?= htmlspecialchars($app['name']) ?> icon" 
+                                class="app-icon"
+                                onerror="this.src='assets/images/default-app.png'">
+                            <h3 class="app-name"><?= htmlspecialchars($app['name']) ?></h3>
+                            <p class="shortcut-hint">Ctrl+<?= htmlspecialchars($app['shortcut_key']) ?></p>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </main>
 
