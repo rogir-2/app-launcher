@@ -1,0 +1,55 @@
+@media (max-width: 768px) {
+    header, #searchWrapper, main {
+        width: 95%;
+    }
+    .app-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+    }
+
+    .app-btn {
+        padding: 16px 12px;
+    }
+
+    .app-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+    .app-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .shortcut-hint {
+        display: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --accent: #0099ff;
+    }
+    .app-btn {
+        border: 1px solid currentColor;
+    }
+}
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    body,
+    .app-btn,
+    #searchInput,
+    #themeBtn {
+        transition: none;
+    }
+    .app-btn:hover,
+    .app-btn:focus {
+        transform: none;
+    }
+}

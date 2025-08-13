@@ -1,0 +1,154 @@
+/* Header */
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 900px;
+    margin-top: 1rem;
+}
+
+/* Theme toggle button */
+#themeBtn {
+    font-size: 1.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+#themeBtn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.light #themeBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+#themeBtn:focus {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Search Section */
+#searchWrapper {
+    width: 80%;
+    max-width: 900px;
+    margin: 20px 0;
+}
+#searchInput {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #666;
+    background: var(--card-dark);
+    color: var(--text-dark);
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.3s ease;
+}
+
+body.light #searchInput {
+    background: var(--card-light);
+    color: var(--text-light);
+    border-color: #ccc;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+#searchInput::placeholder {
+    color: #999;
+}
+
+/* Main content */
+main {
+    width: 80%;
+    max-width: 900px;
+}
+
+/* App grid */
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 18px;
+    padding: 0;
+}
+
+/* App button styles */
+.app-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    border-radius: 12px;
+    background: var(--card-dark);
+    color: inherit;
+    text-decoration: none;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+body.light .app-btn {
+    background: var(--card-light);
+}
+
+.app-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+body.light .app-btn:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.app-btn:focus {
+    outline: none;
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+.app-btn:active {
+    transform: translateY(0);
+}
+
+/* App icon */
+.app-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    object-fit:contain;
+    transition: transform 0.2s ease;
+}
+
+/* App name */
+.app-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 0 4px 0;
+    color: inherit;
+}
+
+/* Shortcut hint */
+.shortcut-hint {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* No results message */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #ffb3b3;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+}
+body.light .no-results {
+    color: #a00;
+}
