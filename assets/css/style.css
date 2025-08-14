@@ -118,6 +118,7 @@ body.light .app-btn:hover {
 /* App icon */
 .app-icon {
     width: 80%;
+    height: 100%;
     margin-bottom: 8px;
     border-radius: 8px;
     object-fit:contain;

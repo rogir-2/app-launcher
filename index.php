@@ -6,7 +6,7 @@
         die("Database connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT name, description, icon_path, link, shortcut_key FROM apps ORDER BY shortcut_key ASC";
+    $sql = "SELECT name, description, icon_path, link, shortcut_key FROM apps ORDER BY card_order ASC";
         $result = $conn->query($sql);
 
     $apps = [];
