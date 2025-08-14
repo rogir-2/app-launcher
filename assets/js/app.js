@@ -110,12 +110,27 @@ document.addEventListener('keydown', (event) => {
 
     // shortcuts
     if (event.ctrlKey || event.metaKey) {
-        const shortcutNumber = parseInt(event.key);
-        if (shortcutNumber >= 1 && shortcutNumber <= visibleAppButtons.length) {
-            event.preventDefault();
-            visibleAppButtons[shortcutNumber - 1].focus();
-            announce(`Focused ${visibleAppButtons[shortcutNumber - 1].textContent.trim()}. Press Enter or Space to open.`);
-        }
+        const pressedKey = event.key.toLowerCase();
+
+        visibleAppButtons.forEach((button, index) => {
+            const shortcut = button.dataset.shortcut?.toLowerCase();
+
+            // Focus by numeric index
+            if (!isNaN(pressedKey) && Number(pressedKey) === index + 1) {
+                event.preventDefault();
+                button.focus();
+                announce(`Focused ${button.textContent.trim()}. Press Enter or Space to open.`);
+            }
+
+            // Focus by letter shortcut
+            if (shortcut === pressedKey) {
+                event.preventDefault();
+                button.focus();
+                announce(`Focused ${button.textContent.trim()}. Press Enter or Space to open.`);
+            }
+        });
+
+        // Ctrl+/ focuses search
         if (event.key === '/') {
             event.preventDefault();
             searchField.focus();
