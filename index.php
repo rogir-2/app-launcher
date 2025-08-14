@@ -23,7 +23,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NWSLC Apps Launcher</title>
+    <title><?php require_once 'includes/config.php'; echo $title;?></title>
 
     <!-- CSS Style -->
     <link rel="stylesheet" href="./assets/css/global.css">
@@ -33,7 +33,7 @@
     <body class="dark">
         <!-- Header -->
         <header>
-            <h1 tabindex="0">NWSLC Apps Launcher</h1>
+            <h1 tabindex="0"><?php require_once 'includes/config.php'; echo $title;?></h1>
             
             <button id="themeBtn" area-pressed="true" aria-label="Toggle light mode">
                 <span id="themeIcon">☀️</span>
