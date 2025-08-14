@@ -1,4 +1,4 @@
-// dom elements
+// DOM elements
 const appGrid = document.getElementById('grid');
 const liveRegion = document.getElementById('live');
 const searchField = document.getElementById('searchInput');
@@ -7,7 +7,7 @@ const themeToggleIcon = document.getElementById('themeIcon');
 
 let lastLiveMessage = '';
 
-// =screen reader anouncement
+// Screen reader announcement
 function announce(message) {
     if (message && message !== lastLiveMessage) {
         lastLiveMessage = message;
@@ -16,7 +16,7 @@ function announce(message) {
     }
 }
 
-// theme handling
+// Theme handling
 function applyTheme(isLightMode) {
     document.body.classList.toggle('light', isLightMode);
     document.body.classList.toggle('dark', !isLightMode);
@@ -40,14 +40,19 @@ themeToggleBtn.addEventListener('click', () => {
 // Load saved theme
 applyTheme(localStorage.getItem('theme') === 'light');
 
-// search functionality
+// Search functionality - match from the start of name/description
 searchField.addEventListener('input', () => {
     const searchQuery = searchField.value.toLowerCase().trim();
     let matchingAppCount = 0;
 
     appGrid.querySelectorAll('.app-btn').forEach(appButton => {
-        const matches = appButton.textContent.toLowerCase().includes(searchQuery);
-        appButton.style.display = matches ? 'flex' : 'none';
+        const appName = appButton.querySelector('.app-name')?.textContent.toLowerCase() || '';
+        const appDesc = appButton.querySelector('.app-description')?.textContent.toLowerCase() || '';
+
+        const matches =
+            searchQuery && (appName.startsWith(searchQuery) || appDesc.startsWith(searchQuery));
+
+        appButton.style.display = matches || searchQuery === '' ? 'flex' : 'none';
         if (matches) matchingAppCount++;
     });
 
@@ -66,9 +71,9 @@ searchField.addEventListener('input', () => {
     }
 });
 
-// keyboard navigation
+// Keyboard navigation
 document.addEventListener('keydown', (event) => {
-    // Skip navigation if typing in a form field
+    // Skip if typing in form field
     if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName) || document.activeElement.isContentEditable) {
         return;
     }
@@ -104,34 +109,28 @@ document.addEventListener('keydown', (event) => {
         document.activeElement.classList.contains('app-btn')) {
         event.preventDefault();
         const targetLink = document.activeElement.getAttribute('href');
-        announce(`Opening ${document.activeElement.textContent.trim()}`);
+        announce(`Opening ${document.activeElement.querySelector('.app-name').textContent.trim()}`);
         setTimeout(() => (window.location = targetLink), 150);
     }
 
-    // shortcuts
+    // Shortcuts - Control / Command + key
     if (event.ctrlKey || event.metaKey) {
         const pressedKey = event.key.toLowerCase();
 
-        visibleAppButtons.forEach((button, index) => {
-            const shortcut = button.dataset.shortcut?.toLowerCase();
-
-            // Focus by numeric index
-            if (!isNaN(pressedKey) && Number(pressedKey) === index + 1) {
-                event.preventDefault();
-                button.focus();
-                announce(`Focused ${button.textContent.trim()}. Press Enter or Space to open.`);
-            }
-
-            // Focus by letter shortcut
-            if (shortcut === pressedKey) {
-                event.preventDefault();
-                button.focus();
-                announce(`Focused ${button.textContent.trim()}. Press Enter or Space to open.`);
-            }
+        // Focus app with matching shortcut
+        const matchingButton = visibleAppButtons.find(btn => {
+            const shortcut = btn.dataset.shortcut?.toLowerCase();
+            return shortcut === pressedKey;
         });
 
-        // Ctrl+/ focuses search
-        if (event.key === '/') {
+        if (matchingButton) {
+            event.preventDefault();
+            matchingButton.focus();
+            announce(`Focused ${matchingButton.querySelector('.app-name').textContent.trim()}. Press Enter or Space to open.`);
+        }
+
+        // Ctrl/Command + / focuses search
+        if (pressedKey === '/') {
             event.preventDefault();
             searchField.focus();
             announce('Search box focused. Type to search.');
