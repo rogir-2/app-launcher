@@ -1,10 +1,11 @@
 <?php
+echo '<p class="caut">Please logon to continue!</p>';
 echo '
-<form action="g/auth.php" method="POST">
-<label>Username (admin): </label>
-<input type="text" name="liu_username"></br>
-<label>Password (admin): </label>
-<input type="text" name="knock"></br>
+<form action="g/dbauth.php" method="POST">
+<label>🆔<strong>Username (admin):</strong> </label>
+<input type="text" name="liu_username" id="liu_username" placeholder="Username" required></br>
+<label>🔐<strong>Password (admin): </strong></label>
+<input type="password" name="knock" id="knock" placeholder="Password" required></br>
 <input type="submit" value="LOGON">
 </form>
 ';

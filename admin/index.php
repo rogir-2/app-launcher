@@ -24,11 +24,9 @@
         include 'g/scout.php';
         // LOGON COOKIE CODE FOR NOW //
         echo '<p class="caut">CAUTION: This page is DIRTY & in development and will be buggy!</p>';
+        echo '<a class="debug" href="doFirstAuthSetup.php">Create Auth DB</a>';
         if(!isset($_COOKIE[$los]))
         {
-            if(!isset($_COOKIE[$liu_username])){echo '<p class="warn">WARNING: Cookie: '.$liu_username.' is not set!</p>';}
-            if(!isset($_COOKIE[$ual_ltr])){echo '<p class="warn">WARNING: Cookie: '.$ual_ltr.' is not set!</p>';}
-            echo '<p class="caut">Please logon to continue!</p>';
             echo'<div id="auth">';
             include 'logon.php';
             echo'</div>';
